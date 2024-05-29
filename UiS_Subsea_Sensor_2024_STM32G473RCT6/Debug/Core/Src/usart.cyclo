@@ -17,5 +17,5 @@
 ../Core/Src/usart.c:43:6:MX_USART1_UART_Init	4
 ../Core/Src/usart.c:127:6:Parse_msg	4
 ../Core/Src/usart.c:153:6:Process_msg	13
-../Core/Src/usart.c:235:6:UART1_update	11
-../Core/Src/usart.c:281:6:UART1_sendcmd	6
+../Core/Src/usart.c:232:6:UART1_update	11
+../Core/Src/usart.c:278:6:UART1_sendcmd	6

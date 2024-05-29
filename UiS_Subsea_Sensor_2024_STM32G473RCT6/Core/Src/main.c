@@ -98,6 +98,8 @@ char dvl_conf[] = "wcs,1481,,y,n,,";
 char rx_buffer[MAX_AMOUNT_BUFFERS][RX_BUFFER_SIZE];
 char DVL_Parced[MAX_AMOUNT_BUFFERS][MAX_NUM_WORDS][MAX_WORD_LENGTH];
 
+// Velger samplingsrate (se enum i MS5837-30BA.c)
+ms5837_t pressuresensor; // Initialiserer en pressuresensor struct
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -126,6 +128,8 @@ int main(void)
 
 	HAL_StatusTypeDef i2c_ret;
 	uint8_t i2c_buffer[10];
+
+	pressuresensor.i2c_address = 0x76; // Setter adressen til riktig adresse
 
 	//-------------------DVL----------------
 	char rx_buffer[MAX_AMOUNT_BUFFERS][RX_BUFFER_SIZE];
@@ -178,9 +182,6 @@ int main(void)
   HAL_TIM_Base_Start(&htim3);
   //-----------pressuresensor/I2C Oppstart----
 
- // Velger samplingsrate (se enum i MS5837-30BA.c)
-  ms5837_t pressuresensor; // Initialiserer en pressuresensor struct
-  pressuresensor.i2c_address = 0x76; // Setter adressen til riktig adresse
   //Nullstill sensor
   ms5837_reset(&pressuresensor); // Nullstiller pressuresensoren
   HAL_Delay(30);

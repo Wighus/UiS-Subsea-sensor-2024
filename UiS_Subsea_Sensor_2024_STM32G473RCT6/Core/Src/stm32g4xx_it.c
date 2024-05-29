@@ -33,7 +33,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN TD */
-
+#define numbChannels 4
 /* USER CODE END TD */
 
 /* Private define ------------------------------------------------------------*/
@@ -82,11 +82,11 @@ extern uint8_t send_dvl;
 extern char rx_buffer[MAX_AMOUNT_BUFFERS][RX_BUFFER_SIZE];
 extern char DVL_Parced[MAX_AMOUNT_BUFFERS][MAX_NUM_WORDS][MAX_WORD_LENGTH];
 extern ms5837_t pressuresensor;
-
 extern uint8_t lekkasje;
 extern uint8_t temp;
+extern uint16_t filtrertTemp[numbChannels];
 
-uint8_t temp1,temp2,temp3,vanntemp,trykk,dvl_cmd = 0;
+uint8_t vanntemp,trykk,dvl_cmd = 0;
 
 
 /* USER CODE END EV */
@@ -264,7 +264,12 @@ void SysTick_Handler(void)
 			  	  	}//_if_else
 			  	  		  //Temp & Trykk
 			  	  	else if (send_msg & 0x80){//_if_else
-			  	  			  uint8_t tp_msg[] = {temp1,temp2,temp3,vanntemp,trykk};
+			  	  			// (Filtrert mV verdi)/(Ref spenning)*(Temp ved Max) = Temp
+			  	  			  uint8_t temp1 = (filtrertTemp[0]/3300)*80;
+			  	  			  uint8_t temp2 = (filtrertTemp[1]/3300)*80;
+			  	  			  uint8_t temp3 = (filtrertTemp[2]/3300)*80;
+			  	  			  uint8_t temp4 = (filtrertTemp[3]/3300)*80;
+			  	  			  uint8_t tp_msg[] = {temp1,temp2,temp3,temp4,vanntemp,trykk};
 			  	  			  SendData((Sensor_start + 0x02), tp_msg, sizeof(tp_msg), uint8);
 			  	  			  send_msg &= 0x7F;
 			  	  	}//_if_else
@@ -284,21 +289,22 @@ void SysTick_Handler(void)
 					  if (ms10_ticker++ > 99){//_100ms
 						  ms10_ticker = 0;
 
-//						  if (pressure_ready++>0){
-//								 //Hent Trykk
-//								 ms5837_read_conversion(&pressuresensor);
-//								 ms5837_start_conversion(&pressuresensor, SENSOR_PRESSURE, OSR_4096);
-//					  	  }
-//					  		else{
-//
-//								 //Hent Vanntemp
-//								 pressure_ready = 0;
-//								 ms5837_read_conversion(&pressuresensor);
-//								 ms5837_calculate(&pressuresensor);
-//								 ms5837_start_conversion(&pressuresensor, SENSOR_PRESSURE, OSR_4096);
-//								 watertemp = ms5837_temperature_celcius(&pressuresensor);
-//								 waterpressure = ms5837_pressure_bar(&pressuresensor);
-//						  }
+						  if (pressure_ready++>0){
+								 //Hent Trykk
+								 ms5837_read_conversion(&pressuresensor);
+								 ms5837_start_conversion(&pressuresensor, SENSOR_PRESSURE, OSR_4096);
+					  	  }
+					  		else{
+
+								 //Hent Vanntemp
+								 pressure_ready = 0;
+								 ms5837_read_conversion(&pressuresensor);
+								 ms5837_calculate(&pressuresensor);
+								 ms5837_start_conversion(&pressuresensor, SENSOR_PRESSURE, OSR_4096);
+								 vanntemp = ms5837_temperature_celcius(&pressuresensor);
+								 trykk = ms5837_pressure_bar(&pressuresensor);
+								 send_msg = send_msg | 0x80;
+						  }
 
 	//----------------Skjer hvert 1sek
 						  if(ms100_ticker++>9){ //_1s

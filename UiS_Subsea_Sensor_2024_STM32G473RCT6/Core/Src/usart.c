@@ -165,42 +165,39 @@ void Process_msg(void){
 			switch (DVL_Parced[process_index][0][2]) {
 			  case 'z': // Velocity report wrz
 
-				  strcpy(wrz.vx,DVL_Parced[process_index][word++]);
-				  strcpy(wrz.vy,DVL_Parced[process_index][word++]);
-				  strcpy(wrz.vz,DVL_Parced[process_index][word++]);
-				  strcpy(wrz.valid,DVL_Parced[process_index][word++]);
-				  strcpy(wrz.altitude,DVL_Parced[process_index][word++]);
-				  strcpy(wrz.merit_figure,DVL_Parced[process_index][word++]);
-				  strcpy(wrz.covariance,DVL_Parced[process_index][word++]);
-				  strcpy(wrz.time_of_reflection,DVL_Parced[process_index][word++]);
-				  strcpy(wrz.time_since_last_rep,DVL_Parced[process_index][word++]);
-				  strcpy(wrz.status,DVL_Parced[process_index][word++]);
+				  strcpy(wrz.vx,DVL_Parced[process_index][1]);
+				  strcpy(wrz.vy,DVL_Parced[process_index][2]);
+				  strcpy(wrz.valid,DVL_Parced[process_index][3]);
+				  strcpy(wrz.altitude,DVL_Parced[process_index][4]);
+				  strcpy(wrz.merit_figure,DVL_Parced[process_index][5]);
+				  strcpy(wrz.covariance,DVL_Parced[process_index][6]);
+				  strcpy(wrz.time_of_reflection,DVL_Parced[process_index][7]);
+				  strcpy(wrz.time_since_last_rep,DVL_Parced[process_index][9]);
+				  strcpy(wrz.status,DVL_Parced[process_index][10]);
 
 				  send_msg |= 0x1;
 
 				break;
 			  case 'u':   // Transducer report wru
 				  // Finner ut hvilken transducer rapporten gjelder og lagrer data i struct
-
 				  uint8_t tra_num = DVL_Parced[process_index][1][0] - '0';
-				  word++;
-				  strcpy(wru.velocity[tra_num],DVL_Parced[process_index][word++]);
-				  strcpy(wru.distance[tra_num],DVL_Parced[process_index][word++]);
-				  strcpy(wru.rssi[tra_num],DVL_Parced[process_index][word++]);
-				  strcpy(wru.nsd[tra_num],DVL_Parced[process_index][word++]);
+				  strcpy(wru.velocity[tra_num],DVL_Parced[process_index][1]);
+				  strcpy(wru.distance[tra_num],DVL_Parced[process_index][2]);
+				  strcpy(wru.rssi[tra_num],DVL_Parced[process_index][3]);
+				  strcpy(wru.nsd[tra_num],DVL_Parced[process_index][4]);
 
 				  send_msg |= 0x2;
 				break;
 			  case 'p':   // Dead reckogning report wrp
-				  strcpy(wrp.time_stamp,DVL_Parced[process_index][word++]);
-				  strcpy(wrp.px,DVL_Parced[process_index][word++]);
-				  strcpy(wrp.py,DVL_Parced[process_index][word++]);
-				  strcpy(wrp.pz,DVL_Parced[process_index][word++]);
-				  strcpy(wrp.pos_std,DVL_Parced[process_index][word++]);
-				  strcpy(wrp.roll,DVL_Parced[process_index][word++]);
-				  strcpy(wrp.pitch,DVL_Parced[process_index][word++]);
-				  strcpy(wrp.yaw,DVL_Parced[process_index][word++]);
-				  strcpy(wrp.status,DVL_Parced[process_index][word++]);
+				  strcpy(wrp.time_stamp,DVL_Parced[process_index][1]);
+				  strcpy(wrp.px,DVL_Parced[process_index][2]);
+				  strcpy(wrp.py,DVL_Parced[process_index][3]);
+				  strcpy(wrp.pz,DVL_Parced[process_index][4]);
+				  strcpy(wrp.pos_std,DVL_Parced[process_index][5]);
+				  strcpy(wrp.roll,DVL_Parced[process_index][6]);
+				  strcpy(wrp.pitch,DVL_Parced[process_index][7]);
+				  strcpy(wrp.yaw,DVL_Parced[process_index][8]);
+				  strcpy(wrp.status,DVL_Parced[process_index][9]);
 
 				  send_msg |= 0x4;
 				break;

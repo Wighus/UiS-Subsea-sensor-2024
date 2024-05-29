@@ -1,7 +1,7 @@
 ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_ll_usart.h:3478:22:LL_USART_EnableIT_RXNE_RXFNE	2
 ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_ll_usart.h:3602:22:LL_USART_EnableIT_ERROR	2
-../Core/Src/main.c:118:5:main	2
-../Core/Src/main.c:262:6:SystemClock_Config	3
-../Core/Src/main.c:306:6:HAL_ADC_ConvCpltCallback	2
-../Core/Src/main.c:328:6:Lekk	11
-../Core/Src/main.c:362:6:Error_Handler	1
+../Core/Src/main.c:120:5:main	2
+../Core/Src/main.c:263:6:SystemClock_Config	3
+../Core/Src/main.c:307:6:HAL_ADC_ConvCpltCallback	2
+../Core/Src/main.c:329:6:Lekk	11
+../Core/Src/main.c:363:6:Error_Handler	1
